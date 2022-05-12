@@ -1,5 +1,6 @@
 :root {
    --size: clamp(100px, 20vw, 10rem);
+   --neon: #ff178f;
 }
 
 * {
@@ -89,7 +90,6 @@ svg {
    box-shadow: inset 12px 12px 12px -12px #aff4ff;
 }
 
-
 .o,
 .x {
    height: 100%;
@@ -135,14 +135,212 @@ svg {
 }
 
 .start-btn {
-   padding: 0.5rem 1rem;
-   background: #19ba29;
-   border: 2px solid white;
-   color: white;
-   border-radius: 4px;
+   padding: 2rem;
+   background: #ff178f1e;
+   border: none;
    text-transform: uppercase;
    font-weight: bold;
    letter-spacing: -1px;
    font-family: "Lato", sans-serif;
    cursor: pointer;
+   align-self: center;
+   position: relative;
+   color: #fff;
+   text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px var(--neon),
+      0 0 82px var(--neon), 0 0 92px var(--neon), 0 0 102px var(--neon), 0 0 151px var(--neon);
+   transition: all 0.2s ease-in-out;
+}
+
+.start-btn:hover, .start-btn:focus {
+   outline: none;
+   background: var(--neon);
+   box-shadow: 0 0 29px 0 var(--neon), inset 0 0 29px 0 var(--neon);
+}
+
+.start-btn::after {
+   content: "";
+   display: block;
+   width: 1rem;
+   height: 1rem;
+   position: absolute;
+   top: 0;
+   left: 0;
+   border: 2px solid var(--neon);
+   border-bottom: none;
+   border-right: none;
+}
+
+.start-btn::before {
+   content: "";
+   display: block;
+   width: 1rem;
+   height: 1rem;
+   position: absolute;
+   bottom: 0;
+   right: 0;
+   border: 2px solid var(--neon);
+   border-top: none;
+   border-left: none;
+}
+
+.start-screen {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   color: white;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   background: radial-gradient(circle, rgba(28, 13, 92, 1) 0%, rgba(0, 0, 0, 1) 71%);
+   z-index: 1;
+}
+
+.neon-text {
+   /* https://css-tricks.com/how-to-create-neon-text-with-css/ */
+   color: #f9e7e7;
+   text-align: center;
+   user-select: none;
+   font-family: "Sacramento", cursive;
+   font-weight: 400;
+   text-shadow: 0 0 4px #fff, 0 0 6px #fff, 0 0 10px var(--neon),
+         0 0 45px var(--neon), 0 0 55px var(--neon);
+   font-size: clamp(4.2rem, 10vw, 6.2rem);
+   border-radius: 2rem;
+}
+
+.form {
+   display: flex;
+}
+
+.options {
+   display: flex;
+   flex-direction: column;
+   margin-right: 2rem;
+}
+
+.options:first-of-type {
+   margin-bottom: 1rem;
+}
+
+.name {
+   font-family: 'Lato', sans-serif;
+   font-size: 1.05rem;
+   letter-spacing: 0.5px;
+   border: 2px solid var(--neon);
+   background: rgba(0, 0, 0, 0.391);
+   padding: 0.75rem 1rem;
+   border-radius: 0.75rem;
+   margin-top: 0.3rem;
+   color: #fff;
+}
+
+.name:focus {
+   outline: none;
+   text-shadow: 0 0 2px #fff;
+   box-shadow: 0 0 5px 0 var(--neon), 0 0 22px 0 var(--neon), inset 0 0 5px 0 var(--neon), inset 0 0 12px 0 var(--neon);
+}
+
+.name-label {
+   user-select: none;
+   color: #fff;
+   text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px var(--neon),
+      0 0 82px var(--neon), 0 0 92px var(--neon), 0 0 102px var(--neon), 0 0 151px var(--neon);
+}
+
+.input-container {
+   position: relative;
+}
+
+.ai-checkbox {
+   position: absolute;
+   bottom: 50%;
+   right: 2.5rem;
+   transform: translateY(63%);
+}
+
+input[type=checkbox] {
+   display: none;
+ }
+
+ .checkbox {
+   position: absolute;
+   color: #fff;
+   font-size: 1.05rem;
+   font-weight: bold;
+   letter-spacing: -1px;
+   cursor: pointer;
+ }
+
+ .checkbox::before {
+   position: absolute;
+   top: 0.5px;
+   right: -1.65rem;
+   width: 1rem;
+   height: 1rem;
+   border: 2.5px solid #fff;
+   border-radius: 0.25rem;
+   content: '';
+ }
+
+ .checkbox::after {
+   opacity: 0;
+   position: absolute;
+   top: 0.285rem;
+   left: 2.2rem;
+   transform: rotate(45deg);
+   width: 3px;
+   height: 8px;
+   border-right: 3px solid #FFF;
+   border-bottom: 3px solid #FFF;
+   filter: drop-shadow(2px 2px 2px #ff178f) drop-shadow(-2px -2px 2px #ff178f);
+   content: '';
+ }
+
+ input[type=checkbox]:checked + .checkbox {
+   text-shadow: 2px 2px 8px #ff178f,
+               -2px -2px 8px #ff178f,
+               4px 4px 10px #ff178f,
+               -4px -4px 10px #ff178f;
+ }
+
+ input[type=checkbox]:checked + .checkbox::before {
+   box-shadow: 1px 1px 10px #ff178f,
+               -1px -1px 10px #ff178f,
+               inset 1px 1px 10px #ff178f,
+               inset -1px -1px 10px #ff178f;
+ }
+
+ input[type=checkbox]:checked + .checkbox::after {
+   opacity: 1;
+ }
+
+@keyframes pulsate {
+   100% {
+      text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px var(--neon),
+         0 0 80px var(--neon), 0 0 90px var(--neon);
+   }
+
+   0% {
+      text-shadow: 0 0 2px #fff, 0 0 4px #fff, 0 0 6px #fff, 0 0 10px var(--neon),
+         0 0 45px var(--neon), 0 0 55px var(--neon);
+   }
+}
+
+@media (max-width: 720px) { 
+   .form {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+   }
+
+   .options {
+      margin: auto;
+   }
+
+   .start-btn {
+      margin-top: 1rem;
+   }
 }
