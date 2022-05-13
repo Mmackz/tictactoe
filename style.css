@@ -261,6 +261,10 @@ svg {
    transform: translateY(63%);
 }
 
+.hide {
+   display: none;
+}
+
 input[type=checkbox] {
    display: none;
  }

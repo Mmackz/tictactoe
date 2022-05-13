@@ -1,5 +1,6 @@
 const squares = document.querySelectorAll(".container div");
 const startBtn = document.querySelector("#start");
+const startScreen = document.querySelector(".start-screen");
 
 (function () {
    let gameActive = false;
@@ -30,6 +31,8 @@ const startBtn = document.querySelector("#start");
    })();
 
    startBtn.onclick = function () {
+      startScreen.classList.add("hide");
+      document.getElementById("main").classList.remove("hide");
       gameActive = !gameActive;
       currentTurn = GameController.selectFirstToGo();
       if (computer.marker === currentTurn) {
