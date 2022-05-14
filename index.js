@@ -81,7 +81,7 @@
       const endGame = (winner) => {
          gameStarted = false;
          let outcome;
-         
+
          if (winner === "tie") {
             outcome = "The game ended in a draw!";
          } else {
@@ -91,7 +91,7 @@
          outcomeScreen.textContent = outcome;
          outcomeScreen.classList.remove("hide");
 
-         const timerID = setTimeout(resetGame, 5000);
+         const timerID = setTimeout(resetGame, 7500);
 
          outcomeScreen.addEventListener("click", () => {
             clearTimeout(timerID);
@@ -165,7 +165,7 @@
          }
 
          // check for tie
-         if (board.filter(Boolean).length === 9) {
+         if (board.filter(Boolean).length === 9 && gameStarted) {
             endGame("tie");
          }
       }
