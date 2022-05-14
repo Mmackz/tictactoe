@@ -2,6 +2,7 @@
    const squares = document.querySelectorAll(".container div");
    const startForm = document.querySelector(".form");
    const startScreen = document.querySelector(".start-screen");
+   const outcomeScreen = document.getElementById("outcome");
    const player1info = document.getElementById("p1");
    const player2info = document.getElementById("p2");
 
@@ -47,6 +48,9 @@
          gameStarted = false;
          players.length = 0;
          board.fill("");
+         startScreen.classList.remove("hide");
+         document.getElementById("main").classList.add("hide");
+         outcomeScreen.classList.add("hide");
       };
 
       const updateBoard = (index, marker) => {
@@ -75,9 +79,24 @@
       };
 
       const endGame = (winner) => {
-         resetGame();
-         startScreen.classList.remove("hide");
-         document.getElementById("main").classList.add("hide");
+         gameStarted = false;
+         let outcome;
+         
+         if (winner === "tie") {
+            outcome = "The game ended in a draw!";
+         } else {
+            outcome = `${winner.name} has won!`;
+         }
+
+         outcomeScreen.textContent = outcome;
+         outcomeScreen.classList.remove("hide");
+
+         const timerID = setTimeout(resetGame, 5000);
+
+         outcomeScreen.addEventListener("click", () => {
+            clearTimeout(timerID);
+            resetGame();
+         })
       };
 
       const makeAiMove = (marker) => {
@@ -140,10 +159,14 @@
 
          for (let i = 0; i < winningCombos.length; i++) {
             if (winningCombos[i].every((index) => player.moves.includes(index.toString()))) {
-               console.log("winner found");
                markWinner(winningCombos[i]);
-               gameStarted = false;
+               endGame(player);
             }
+         }
+
+         // check for tie
+         if (board.filter(Boolean).length === 9) {
+            endGame("tie");
          }
       }
 
@@ -159,9 +182,6 @@
          squares.forEach((square, i) => {
             if (winningCombo.includes(i.toString())) {
                square.classList.add("winner");
-               setTimeout(() => {
-                  endGame();
-               }, 5000);
             }
          })
       };
@@ -183,7 +203,7 @@
          // change turn
          changeTurn();
 
-         if (players[currentPlayer].ai) {
+         if (gameStarted && players[currentPlayer].ai) {
             makeAiMove(players[currentPlayer].marker);
          }; 
       }
@@ -205,31 +225,3 @@
    }));
 
 })();
-
-
-
-
-/* 
-notes
------
-
-  - O is to small
-  - use lowercase letters for markers
-  - add delay before computer moves
-  - have cpu go after player turn
-  - if round reaches 9, declare draw
-  
-  left off adding turns for cpu on start (if selected randomly) and allowing player to fill boxes when game started
- */
-
-   //    // winning conditions
-   //    const winningAxes = [
-   //       [0,1,2],
-   //       [3,4,5],
-   //       [6,7,8],
-   //       [0,3,6],
-   //       [1,4,7],
-   //       [2,5,8],
-   //       [0,4,8],
-   //       [2,4,6],
-   //   ];
