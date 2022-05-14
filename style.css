@@ -28,6 +28,7 @@ svg {
    display: grid;
    grid-template-columns: repeat(3, var(--size));
    transform: translateY(-1rem);
+   margin-top: 0.75rem;
 }
 
 .container div {
@@ -110,6 +111,7 @@ svg {
    border-radius: 50%;
    background: transparent;
    box-shadow: inset 0 0 0 10px #ffd5d5, inset 0 0 25px #fb2a2a, 0 0 1rem #fb2a2a;
+   animation: spring-o 0.65s;
 }
 
 .x::before,
@@ -128,10 +130,12 @@ svg {
 
 .x::before {
    transform: translate(-50%, -50%) rotate(45deg);
+   animation: spring-xl 0.65s;
 }
 
 .x::after {
    transform: translate(-50%, -50%) rotate(-45deg);
+   animation: spring-xr 0.65s;
 }
 
 .start-btn {
@@ -265,20 +269,24 @@ svg {
    display: none;
 }
 
+.winner {
+   background: #ffffff58;
+}
+
 input[type=checkbox] {
    display: none;
- }
+}
 
- .checkbox {
+.checkbox {
    position: absolute;
    color: #fff;
    font-size: 1.05rem;
    font-weight: bold;
    letter-spacing: -1px;
    cursor: pointer;
- }
+}
 
- .checkbox::before {
+.checkbox::before {
    position: absolute;
    top: 0.5px;
    right: -1.65rem;
@@ -287,9 +295,9 @@ input[type=checkbox] {
    border: 2.5px solid #fff;
    border-radius: 0.25rem;
    content: '';
- }
+}
 
- .checkbox::after {
+.checkbox::after {
    opacity: 0;
    position: absolute;
    top: 0.285rem;
@@ -301,25 +309,61 @@ input[type=checkbox] {
    border-bottom: 3px solid #FFF;
    filter: drop-shadow(2px 2px 2px #ff178f) drop-shadow(-2px -2px 2px #ff178f);
    content: '';
- }
+}
 
- input[type=checkbox]:checked + .checkbox {
+input[type=checkbox]:checked + .checkbox {
    text-shadow: 2px 2px 8px #ff178f,
                -2px -2px 8px #ff178f,
                4px 4px 10px #ff178f,
                -4px -4px 10px #ff178f;
- }
+}
 
- input[type=checkbox]:checked + .checkbox::before {
+input[type=checkbox]:checked + .checkbox::before {
    box-shadow: 1px 1px 10px #ff178f,
                -1px -1px 10px #ff178f,
                inset 1px 1px 10px #ff178f,
                inset -1px -1px 10px #ff178f;
- }
+}
 
- input[type=checkbox]:checked + .checkbox::after {
+input[type=checkbox]:checked + .checkbox::after {
    opacity: 1;
- }
+}
+
+@keyframes spring-o {
+   0% {
+      transform: translate(-50%, -50%) scale(0.95);
+   }
+   50% {
+      transform: translate(-50%, -50%) scale(1.06);
+   }
+   100% {
+      transform: translate(-50%, -50%) scale(1);
+   }
+}
+
+@keyframes spring-xl {
+   0% {
+      transform: translate(-50%, -50%) rotate(45deg) scale(0.95);
+   }
+   50% {
+      transform: translate(-50%, -50%) rotate(45deg) scale(1.06);
+   }
+   100% {
+      transform: translate(-50%, -50%) rotate(45deg) scale(1);
+   }
+}
+
+@keyframes spring-xr {
+   0% {
+      transform: translate(-50%, -50%) rotate(-45deg) scale(0.95);
+   }
+   50% {
+      transform: translate(-50%, -50%) rotate(-45deg) scale(1.06);
+   }
+   100% {
+      transform: translate(-50%, -50%) rotate(-45deg) scale(1);
+   }
+}
 
 @keyframes pulsate {
    100% {
