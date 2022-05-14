@@ -2,6 +2,8 @@
    const squares = document.querySelectorAll(".container div");
    const startForm = document.querySelector(".form");
    const startScreen = document.querySelector(".start-screen");
+   const player1info = document.getElementById("p1");
+   const player2info = document.getElementById("p2");
 
    const Player = (name, marker, ai = false) => {
       const moves = [];
@@ -28,6 +30,12 @@
          const bool = Math.random() > 0.5;
          players.push(Player(player1.value, bool ? "x" : "o"));
          players.push(Player(player2.value, bool ? "o" : "x", ai));
+         const p1 = players[0].marker === "x" ? players[0] : players[1];
+         const p2 = players[0].marker === "x" ? players[1] : players[0];
+         player1info.innerHTML = `${p1.name} <span class="emoji">${p1.ai ? "🤖" : ""}</span>`;
+         player2info.innerHTML = `${p2.name} <span class="emoji">${p2.ai ? "🤖" : ""}</span>`;
+         player1info.parentElement.classList = ("player-info active");
+         player2info.parentElement.classList = ("player-info");
       };
 
       const resetBoard = () => {
@@ -53,6 +61,17 @@
 
       const changeTurn = () => {
          currentPlayer = currentPlayer ? 0 : 1;
+         if (gameStarted) {
+            if (players[0].marker === "x" && currentPlayer === 0 || 
+                players[0].marker === "o" && currentPlayer === 1) {
+               player1info.parentElement.classList = ("player-info active");
+               player2info.parentElement.classList = ("player-info");
+            }
+            else {
+               player1info.parentElement.classList = ("player-info");
+               player2info.parentElement.classList = ("player-info active");
+            }
+         }
       };
 
       const endGame = (winner) => {
@@ -69,7 +88,7 @@
             players[currentPlayer].addMove(cpuMove.toString());
             updateBoard(cpuMove, marker);
             aiTurn = false;
-            checkForWinner(players[1]);
+            checkForWinner(players[currentPlayer]);
             changeTurn();    
          }, 1000);
       };
@@ -133,7 +152,6 @@
             players[currentPlayer].addMove(index);
             updateBoard(index, players[currentPlayer].marker);
             board[index] = players[currentPlayer].marker;
-            changeTurn();
          }
       }
 
@@ -160,7 +178,10 @@
          takeTurn(index);
 
          // check for winner
-         checkForWinner(players[Math.abs(currentPlayer - 1)]);
+         checkForWinner(players[currentPlayer]);
+
+         // change turn
+         changeTurn();
 
          if (players[currentPlayer].ai) {
             makeAiMove(players[currentPlayer].marker);

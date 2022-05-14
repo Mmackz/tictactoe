@@ -1,5 +1,5 @@
 :root {
-   --size: clamp(100px, 20vw, 10rem);
+   --size: clamp(100px, 20vw, 8.5rem);
    --neon: #ff178f;
 }
 
@@ -11,6 +11,7 @@
 body {
    background: rgb(28, 13, 92);
    background: radial-gradient(circle, rgba(28, 13, 92, 1) 0%, rgba(0, 0, 0, 1) 71%);
+   font-family: "Lato", sans-serif;
    height: 100%;
    min-height: 100vh;
    display: flex;
@@ -215,6 +216,10 @@ svg {
    border-radius: 2rem;
 }
 
+h2.neon-text {
+   font-size: clamp(4rem, 10vw, 5.5rem);
+}
+
 .form {
    display: flex;
 }
@@ -273,6 +278,42 @@ svg {
    background: #ffffff58;
 }
 
+.players-info {
+   display: flex;
+   justify-content: space-around;
+   position: relative;
+   top: -1rem;
+}
+
+.player-info {
+   display: flex;
+   position: relative;
+   color: #fff;
+   font-weight: bold;
+   letter-spacing: -0.5px;
+   transition: all 0.2s ease-in-out;
+}
+
+.player-info > div {
+   width: 7.5rem;
+   height: 7.5rem;
+   transform: scale(0.35);
+   top: -3.15rem;
+   margin-right: -2.75rem;
+   margin-bottom: -5rem;
+}
+
+.active {
+   color: #b8ffae;
+   transform: scale(1.15);
+}
+
+.emoji {
+   display: inline-block;
+   margin-left: 0.15rem;
+   transform: translateY(-2px);
+}
+
 input[type=checkbox] {
    display: none;
 }
@@ -301,7 +342,7 @@ input[type=checkbox] {
    opacity: 0;
    position: absolute;
    top: 0.285rem;
-   left: 2.2rem;
+   left: 2.125rem;
    transform: rotate(45deg);
    width: 3px;
    height: 8px;
