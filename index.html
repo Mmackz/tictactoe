@@ -9,7 +9,8 @@
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Sacramento&display=swap" rel="stylesheet">
    <link rel="stylesheet" href="style.css">
-   <script src="index.js" defer></script>
+   <script type="module" src="modules/minimax.js"></script>
+   <script type="module" src="index.js" defer></script>
 </head>
 <body>
    <div class="start-screen">
@@ -24,12 +25,20 @@
                <label for="p2name" class="name-label">Enter Player 2 Name</label>
                <div class="input-container">
                   <input id="p2name" type="text" name="p2name" class="name" value="Player 2" autocomplete="off" spellcheck="false" maxlength="14" pattern="[a-zA-Z0-9_\- ]+">
-                  <input id="checkbox" type="checkbox" name="checkbox" checked>
-                  <label for="checkbox" class="checkbox ai-checkbox">A.I.</label>
+                  <input id="isAI" type="checkbox" name="isAI" checked>
+                  <label for="isAI" class="checkbox ai-checkbox">A.I.</label>
                </div>
             </div>
          </div>
-         <button class="start-btn" id="start">Start Game</button>
+         <div class="start-container">
+            <button class="start-btn" id="start">Start Game</button>
+            <div class="difficulty">
+               <input id="easy-checkbox" type="radio" name="difficulty" selected>
+               <label for="easy-checkbox" class="checkbox difficulty easy">Easy</label>
+               <input id="hard-checkbox" type="radio" name="difficulty" checked>
+               <label for="hard-checkbox" class="checkbox difficulty hard">Hard</label>
+            </div>
+         </div>
       </form>
    </div>
    <main id="main" class="hide">

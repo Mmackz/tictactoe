@@ -1,3 +1,5 @@
+import minimax from "./modules/minimax.js";
+
 (function () {
    const squares = document.querySelectorAll(".container div");
    const startForm = document.querySelector(".form");
@@ -18,7 +20,7 @@
          addMove,
          ai
       };
-   }
+   };
 
    const GameController = (() => {
       let gameStarted = false;
@@ -33,14 +35,18 @@
          players.push(Player(player2.value, bool ? "o" : "x", ai));
          const p1 = players[0].marker === "x" ? players[0] : players[1];
          const p2 = players[0].marker === "x" ? players[1] : players[0];
-         player1info.innerHTML = `${p1.name} <span class="emoji">${p1.ai ? "🤖" : ""}</span>`;
-         player2info.innerHTML = `${p2.name} <span class="emoji">${p2.ai ? "🤖" : ""}</span>`;
-         player1info.parentElement.classList = ("player-info active");
-         player2info.parentElement.classList = ("player-info");
+         player1info.innerHTML = `${p1.name} <span class="emoji">${
+            p1.ai ? "🤖" : ""
+         }</span>`;
+         player2info.innerHTML = `${p2.name} <span class="emoji">${
+            p2.ai ? "🤖" : ""
+         }</span>`;
+         player1info.parentElement.classList = "player-info active";
+         player2info.parentElement.classList = "player-info";
       };
 
       const resetBoard = () => {
-         squares.forEach((square) => square.classList = "");
+         squares.forEach((square) => (square.classList = ""));
       };
 
       const resetGame = () => {
@@ -66,14 +72,15 @@
       const changeTurn = () => {
          currentPlayer = currentPlayer ? 0 : 1;
          if (gameStarted) {
-            if (players[0].marker === "x" && currentPlayer === 0 || 
-                players[0].marker === "o" && currentPlayer === 1) {
-               player1info.parentElement.classList = ("player-info active");
-               player2info.parentElement.classList = ("player-info");
-            }
-            else {
-               player1info.parentElement.classList = ("player-info");
-               player2info.parentElement.classList = ("player-info active");
+            if (
+               (players[0].marker === "x" && currentPlayer === 0) ||
+               (players[0].marker === "o" && currentPlayer === 1)
+            ) {
+               player1info.parentElement.classList = "player-info active";
+               player2info.parentElement.classList = "player-info";
+            } else {
+               player1info.parentElement.classList = "player-info";
+               player2info.parentElement.classList = "player-info active";
             }
          }
       };
@@ -96,22 +103,20 @@
          outcomeScreen.addEventListener("click", () => {
             clearTimeout(timerID);
             resetGame();
-         })
+         });
       };
 
       const makeAiMove = (marker) => {
-
          // use minimax to find best move
-
          if (!gameStarted) return;
          aiTurn = true;
          setTimeout(() => {
-            const cpuMove = getRandomMove(getFreeSpaces());
+            const cpuMove = minimax.findBestMove(board, marker);
             players[currentPlayer].addMove(cpuMove.toString());
             updateBoard(cpuMove, marker);
             aiTurn = false;
             checkForWinner(players[currentPlayer]);
-            changeTurn();    
+            changeTurn();
          }, 1000);
       };
 
@@ -119,23 +124,16 @@
          return gameStarted;
       };
 
-      const getFreeSpaces = () => {
-         return board.map((space, index) => {
-            if (space === "") {
-               return index;
-            }
-            return null;
-         }).filter((space) => space !== null);
-      };
-
-      const getRandomMove = (moves) => moves[Math.floor(Math.random() * moves.length)];
-
       const startGame = (e) => {
          e.preventDefault();
          gameStarted = true;
          resetBoard();
          showBoard();
-         assignPlayers(e.target.elements[0], e.target.elements[1], e.target.elements[2].checked);
+         assignPlayers(
+            e.target.elements[0],
+            e.target.elements[1],
+            e.target.elements[2].checked
+         );
 
          // set current player based on assignment of x and o
          currentPlayer = players[0].marker === "x" ? 0 : 1;
@@ -144,7 +142,7 @@
          if (players[1].ai && players[1].marker === "x") {
             makeAiMove(players[1].marker);
          }
-      }
+      };
 
       const checkForWinner = (player) => {
          // no need to check for winner if less than 5 moves
@@ -161,7 +159,9 @@
          ];
 
          for (let i = 0; i < winningCombos.length; i++) {
-            if (winningCombos[i].every((index) => player.moves.includes(index.toString()))) {
+            if (
+               winningCombos[i].every((index) => player.moves.includes(index.toString()))
+            ) {
                markWinner(winningCombos[i]);
                endGame(player);
             }
@@ -171,7 +171,7 @@
          if (board.filter(Boolean).length === 9 && gameStarted) {
             endGame("tie");
          }
-      }
+      };
 
       const takeTurn = (index) => {
          if (board[index] === "") {
@@ -179,18 +179,17 @@
             updateBoard(index, players[currentPlayer].marker);
             board[index] = players[currentPlayer].marker;
          }
-      }
+      };
 
       const markWinner = (winningCombo) => {
          squares.forEach((square, i) => {
             if (winningCombo.includes(i.toString())) {
                square.classList.add("winner");
             }
-         })
+         });
       };
 
       const playRound = (index) => {
-
          // return if not players turn
          if (aiTurn) return;
 
@@ -208,23 +207,24 @@
 
          if (gameStarted && players[currentPlayer].ai) {
             makeAiMove(players[currentPlayer].marker);
-         }; 
-      }
+         }
+      };
 
       return {
          getGameState,
          startGame,
          playRound
-      }
+      };
    })();
 
    const { startGame, playRound, getGameState } = GameController;
 
    startForm.addEventListener("submit", startGame);
-   squares.forEach((square) => square.addEventListener("click", () => {
-      if (getGameState()) {
-         playRound(square.dataset.index);
-      }   
-   }));
-
+   squares.forEach((square) =>
+      square.addEventListener("click", () => {
+         if (getGameState()) {
+            playRound(square.dataset.index);
+         }
+      })
+   );
 })();
