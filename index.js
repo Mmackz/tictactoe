@@ -100,6 +100,9 @@
       };
 
       const makeAiMove = (marker) => {
+
+         // use minimax to find best move
+
          if (!gameStarted) return;
          aiTurn = true;
          setTimeout(() => {
