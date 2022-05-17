@@ -20,6 +20,10 @@ body {
    align-items: center;
 }
 
+main {
+   animation: scale-in-main 0.35s ease-in;
+}
+
 svg {
    transform: translateY(-3rem);
    max-height: clamp(3rem, 9vw, 4.5rem);
@@ -139,6 +143,11 @@ svg {
    animation: spring-xr 0.65s;
 }
 
+.start-container {
+   position: relative;
+   margin: auto;
+}
+
 .start-btn {
    padding: 2rem;
    background: #ff178f1e;
@@ -218,6 +227,30 @@ svg {
 
 h2.neon-text {
    font-size: clamp(4rem, 10vw, 5.5rem);
+}
+
+.difficulty {
+   bottom: -1.75rem;
+   transform: scale(0.85);
+   animation: scale-in-checkboxes 0.25s linear;
+}
+
+.easy {
+   bottom: -2rem;
+   left: 0.2rem;
+}
+
+label.easy::after {
+   left: 2.75rem;
+}
+
+.hard {
+   bottom: -2rem;
+   right: 1.5rem;
+}
+
+label.hard::after {
+   left: 2.9rem;
 }
 
 .form {
@@ -335,7 +368,8 @@ h2.neon-text {
    transition: all 0.2s ease-in-out;
 }
 
-input[type=checkbox] {
+input[type="checkbox"],
+input[type="radio"] {
    display: none;
 }
 
@@ -373,22 +407,46 @@ input[type=checkbox] {
    content: '';
 }
 
-input[type=checkbox]:checked + .checkbox {
+input:checked + .checkbox,
+input:checked + .checkbox {
    text-shadow: 2px 2px 8px #ff178f,
                -2px -2px 8px #ff178f,
                4px 4px 10px #ff178f,
                -4px -4px 10px #ff178f;
 }
 
-input[type=checkbox]:checked + .checkbox::before {
+input:checked + .checkbox::before {
    box-shadow: 1px 1px 10px #ff178f,
                -1px -1px 10px #ff178f,
                inset 1px 1px 10px #ff178f,
                inset -1px -1px 10px #ff178f;
 }
 
-input[type=checkbox]:checked + .checkbox::after {
+input:checked + .checkbox::after {
    opacity: 1;
+}
+
+/* scale in animation */
+@keyframes scale-in-checkboxes {
+   0% {
+      transform: scale(0.35);
+      opacity: 0;
+   }
+   100% {
+      transform: scale(0.85);
+      opacity: 1;
+   }
+}
+
+@keyframes scale-in-main {
+   0% {
+      transform: scale(0.35);
+      opacity: 0;
+   }
+   100% {
+      transform: scale(1);
+      opacity: 1;
+   }
 }
 
 @keyframes spring-o {

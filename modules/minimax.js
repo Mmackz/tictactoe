@@ -8,6 +8,8 @@ export default (function () {
 
    function evaluate(board, max, depth) {
       const turn = max ? maxPlayer : minPlayer;
+
+      // look for a winning combo
       if (
          (board[0] == turn && board[1] == turn && board[2] == turn) ||
          (board[3] == turn && board[4] == turn && board[5] == turn) ||
@@ -20,6 +22,8 @@ export default (function () {
       ) {
          return max ? 10 - depth : -10 + depth;
       }
+
+      // in case of tie
       return 0;
    }
 

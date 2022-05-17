@@ -7,6 +7,8 @@ import minimax from "./modules/minimax.js";
    const outcomeScreen = document.getElementById("outcome");
    const player1info = document.getElementById("p1");
    const player2info = document.getElementById("p2");
+   const isAI = document.getElementById("isAI");
+   const easyMode = document.getElementById("easy-checkbox");
 
    const Player = (name, marker, ai = false) => {
       const moves = [];
@@ -106,12 +108,38 @@ import minimax from "./modules/minimax.js";
          });
       };
 
+      const getFreeSpaces = () => {
+         return board
+            .map((space, index) => {
+               if (space === "") {
+                  return index;
+               }
+               return null;
+            })
+            .filter((space) => space !== null);
+      };
+
+      const getRandomMove = (moves) => moves[Math.floor(Math.random() * moves.length)];
+
       const makeAiMove = (marker) => {
          // use minimax to find best move
          if (!gameStarted) return;
          aiTurn = true;
          setTimeout(() => {
-            const cpuMove = minimax.findBestMove(board, marker);
+            let cpuMove;
+            // leave chance for a.i to make early mistake if easy mode selected
+            if (
+               (easyMode.checked &&
+                  Math.random() < 0.6 &&
+                  board.filter(Boolean).length < 3) ||
+               (easyMode.checked &&
+                  Math.random() < 0.1 &&
+                  board.filter(Boolean).length >= 3)
+            ) {
+               cpuMove = getRandomMove(getFreeSpaces());
+            } else {
+               cpuMove = minimax.findBestMove(board, marker);
+            }
             players[currentPlayer].addMove(cpuMove.toString());
             updateBoard(cpuMove, marker);
             aiTurn = false;
@@ -227,4 +255,8 @@ import minimax from "./modules/minimax.js";
          }
       })
    );
+
+   isAI.addEventListener("change", () => {
+      document.querySelector(".difficulty").classList.toggle("hide");
+   });
 })();
