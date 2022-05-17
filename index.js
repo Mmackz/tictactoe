@@ -1,6 +1,8 @@
 import minimax from "./modules/minimax.js";
+import { Player } from "./modules/player.js";
 
 (function () {
+   // DOM elements
    const squares = document.querySelectorAll(".container div");
    const startForm = document.querySelector(".form");
    const startScreen = document.querySelector(".start-screen");
@@ -8,21 +10,8 @@ import minimax from "./modules/minimax.js";
    const player1info = document.getElementById("p1");
    const player2info = document.getElementById("p2");
    const isAI = document.getElementById("isAI");
+   const root = document.querySelector(':root');
    const easyMode = document.getElementById("easy-checkbox");
-
-   const Player = (name, marker, ai = false) => {
-      const moves = [];
-      const addMove = (move) => {
-         moves.push(move);
-      };
-      return {
-         name,
-         marker,
-         moves,
-         addMove,
-         ai
-      };
-   };
 
    const GameController = (() => {
       let gameStarted = false;
@@ -145,11 +134,15 @@ import minimax from "./modules/minimax.js";
             aiTurn = false;
             checkForWinner(players[currentPlayer]);
             changeTurn();
-         }, 1000);
+         }, 1200);
       };
 
       const getGameState = () => {
-         return gameStarted;
+         return {
+            gameStarted,
+            aiTurn,
+            currentPlayer: players[currentPlayer]
+         };
       };
 
       const startGame = (e) => {
@@ -248,13 +241,13 @@ import minimax from "./modules/minimax.js";
    const { startGame, playRound, getGameState } = GameController;
 
    startForm.addEventListener("submit", startGame);
-   squares.forEach((square) =>
+   squares.forEach((square) => {
       square.addEventListener("click", () => {
-         if (getGameState()) {
+         if (getGameState().gameStarted) {
             playRound(square.dataset.index);
          }
-      })
-   );
+      });
+   });
 
    isAI.addEventListener("change", () => {
       document.querySelector(".difficulty").classList.toggle("hide");
