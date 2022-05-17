@@ -69,9 +69,11 @@ import { Player } from "./modules/player.js";
             ) {
                player1info.parentElement.classList = "player-info active";
                player2info.parentElement.classList = "player-info";
+               root.style.setProperty("--player", "#ebf18f");
             } else {
                player1info.parentElement.classList = "player-info";
                player2info.parentElement.classList = "player-info active";
+               root.style.setProperty("--player", "#ff6583");
             }
          }
       };
@@ -113,7 +115,7 @@ import { Player } from "./modules/player.js";
       const makeAiMove = (marker) => {
          // use minimax to find best move
          if (!gameStarted) return;
-         aiTurn = true;
+         aiListener.turn = true;
          setTimeout(() => {
             let cpuMove;
             // leave chance for a.i to make early mistake if easy mode selected
@@ -131,7 +133,7 @@ import { Player } from "./modules/player.js";
             }
             players[currentPlayer].addMove(cpuMove.toString());
             updateBoard(cpuMove, marker);
-            aiTurn = false;
+            aiListener.turn = false;
             checkForWinner(players[currentPlayer]);
             changeTurn();
          }, 1200);
@@ -231,14 +233,29 @@ import { Player } from "./modules/player.js";
          }
       };
 
+      const aiListener = {
+         listener: function(value) {},
+         set turn(value) {
+            aiTurn = value;
+            this.listener(value);
+         },
+         get turn() {
+            return aiTurn;
+         },
+         registerListener: function(listener) {
+            this.listener = listener;
+         }
+      };
+
       return {
+         aiListener,
          getGameState,
          startGame,
          playRound
       };
    })();
 
-   const { startGame, playRound, getGameState } = GameController;
+   const { aiListener, startGame, playRound, getGameState } = GameController;
 
    startForm.addEventListener("submit", startGame);
    squares.forEach((square) => {
@@ -246,6 +263,15 @@ import { Player } from "./modules/player.js";
          if (getGameState().gameStarted) {
             playRound(square.dataset.index);
          }
+      });
+   });
+
+   // allows hover effects to only be active on players turn
+   aiListener.registerListener(() => {
+      squares.forEach((square) => {
+         setTimeout(() => {
+            if (getGameState().gameStarted) square.classList.toggle("aiturn");
+         }, 0);
       });
    });
 
