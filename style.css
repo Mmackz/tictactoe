@@ -231,7 +231,6 @@ svg {
 }
 
 .neon-text {
-   /* https://css-tricks.com/how-to-create-neon-text-with-css/ */
    color: #f9e7e7;
    text-align: center;
    user-select: none;
